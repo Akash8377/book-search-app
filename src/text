@@ -1,0 +1,239 @@
+import React, { useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import './styles.css';
+
+const temp = 'https://www.pixelstalk.net/wp-content/uploads/images5/Tan-Aesthetic-Wallpaper-HD.jpg';
+
+export default function Layout() {
+  const [book, setBook] = useState("");
+  const [details, setDetails] = useState(null);
+
+  const Search = (e) => {
+    e.preventDefault();
+
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${book}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.items);
+        setDetails(data.items);
+      })
+      .catch(error => {
+        console.log(error);
+        setDetails([]);
+      });
+  }
+
+  return (
+    <BrowserRouter>
+      <div>
+        <div id="nav">
+          <p>BOOK SEARCH</p>
+        </div>
+        <div id="home">
+          <input type="text" value={book} onChange={e => setBook(e.target.value)} />
+          <button onClick={Search}>Search</button>
+          <div id="container">
+            {details && details.map((it) => (
+              <a href={it.volumeInfo.infoLink} key={it.id}>
+                <div className="item">
+                  <div id="overlay"></div>
+                  <div id="infos">
+                    <p>{it.volumeInfo.title}</p>
+                    <p id="author">{it.volumeInfo.authors}</p>
+                    <p>{it.volumeInfo.pageCount}</p>
+                    <p>{it.volumeInfo.averageRating}</p>
+                  </div>
+                  <a href={it.volumeInfo.infoLink}>
+                    <img src={it.volumeInfo.imageLinks ? it.volumeInfo.imageLinks.thumbnail : temp} alt="Book Cover" />
+                  </a>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+
+
+#home{
+    width: 100%;
+    background-image: url("https://img.freepik.com/premium-photo/wood-texture-background-old-boards_124507-7119.jpg?w=996");
+    height: 150vh;
+    
+}
+
+#infos{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    display: none;
+    font-weight: 700;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+#home{
+    width: 100%;
+    background-image: url("https://img.freepik.com/premium-photo/wood-texture-background-old-boards_124507-7119.jpg?w=996");
+    height: 150vh;
+    
+}
+input{
+    margin-top: 20px;
+    width: 850px;
+    height: 22px;
+}
+#nav p{
+    margin-top: 25px;
+    margin: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:xxx-large;
+    color: white;
+}   
+button{
+    height: 28px;
+    cursor: pointer;
+    background-color: gray;
+    border: none;
+    color: white;
+    font-weight: 700;
+}
+#nav{
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    background-image: url("https://media.gettyimages.com/id/157402285/photo/ebony-wood-background-with-vertical-stripes.jpg?s=2048x2048&w=gi&k=20&c=EzgICL3JHfe4Y9es98v0TwLdnkLSdlPYsiAUiW11m5w=");
+    border: none;
+    position: relative;
+    display: flex;
+   
+}
+button:hover{
+    background-color: rgb(79, 74, 74);
+}
+button:active{
+    background-color: rgb(114, 95, 95);
+}
+#container{
+    width: 60%;
+    margin: auto;
+    margin-top: 30px;
+    height: auto;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.item{
+    width: 150px;
+    cursor: pointer;
+    height: 200px;
+    position: relative;
+    margin: 20px;
+    object-fit:contain;
+}
+.item:hover{
+    transform: scale(1.2);
+    transition: ease-in-out 0.4s;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+
+#author{
+    margin-top: 40px;
+}
+#overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+}
+.item:hover #overlay{
+    opacity: 0.5;
+}
+.item:hover #infos{
+    display: block;
+}
+.item:hover {
+  transform: scale(1.2);
+}
+
+.item:hover .infos {
+  visibility: visible;
+}
+
+.infos {
+  visibility: hidden;
+  /* Add other necessary styles */
+}
+
+
+
+import React, { useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import './Layout.css';
+
+const temp = 'https://www.pixelstalk.net/wp-content/uploads/images5/Tan-Aesthetic-Wallpaper-HD.jpg';
+
+export default function Layout() {
+  const [book, setBook] = useState("");
+  const [details, setDetails] = useState(null);
+
+  const Search = (e) => {
+    e.preventDefault();
+  
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${book}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.items);
+        setDetails(data.items);
+      })
+      .catch(error => {
+        console.log(error);
+        setDetails([]);
+      });
+  };
+  
+
+  return (
+    <BrowserRouter>
+      <div>
+      <div id="nav">
+        <h1 id="heading">BOOK SEARCH</h1>
+      </div>
+      <div id="home">
+        <input type="text" id="search-field" value={book} onChange={e => setBook(e.target.value)} />
+        <button id="search-btn" onClick={Search}>Search</button>
+        <div id="container">
+          {details && details.map((it) => (
+  <a href={it.volumeInfo.infoLink} key={it.id} target="_blank" rel="noopener noreferrer" className="book">
+    <div className="item">
+      <div className="overlay"></div>
+      <div className="infos">
+        <h4 className="book-title">{it.volumeInfo.title}</h4>
+        <p className="book-author">{it.volumeInfo.authors}</p>
+        <p className="book-page-count">{it.volumeInfo.pageCount}</p>
+      </div>
+      <a href={it.volumeInfo.infoLink} target="_blank" rel="noopener noreferrer">
+        <img src={it.volumeInfo.imageLinks ? it.volumeInfo.imageLinks.thumbnail : temp} alt="Book Cover" />
+      </a>
+    </div>
+  </a>
+))}
+        </div>
+      </div>
+    </div>
+    </BrowserRouter>
+  );
+}
+
+
+
+
